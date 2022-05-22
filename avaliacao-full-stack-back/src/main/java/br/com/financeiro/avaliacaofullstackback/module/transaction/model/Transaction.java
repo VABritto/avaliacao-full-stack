@@ -37,7 +37,7 @@ public class Transaction {
 	@JoinColumn(name="FK_DEPOSITOR", nullable=false)
 	private Account depositor;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="FK_RECEIVER", nullable=false)
 	private Account receiver;
 

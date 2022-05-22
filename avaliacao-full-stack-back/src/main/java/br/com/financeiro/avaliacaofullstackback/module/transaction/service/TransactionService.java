@@ -39,8 +39,9 @@ public class TransactionService {
 		return TransactionResponse.of(transaction);
 	}
 
-	public List<TransactionResponse> findAll() {
-		List<Transaction> transactions = transactionRepository.findAll();
+	public List<TransactionResponse> findAllByAccountNumber(String accountNumber) {
+		Account depositor = accountService.findByAccountNumber(accountNumber);
+		List<Transaction> transactions = transactionRepository.findAllByActiveTrueAndDepositorIs(depositor);
 		return TransactionResponse.of(transactions);
 	}
 
@@ -132,14 +133,13 @@ public class TransactionService {
 
 	public void executeTransactions() {
 		List<Transaction> transactions = transactionRepository.findAllByActiveTrueAndTransferDateBefore(LocalDateTime.now());
-		System.out.println("Transações encontradas: " + transactions.size());
 		if(!transactions.isEmpty()) {
 			for(Transaction transaction : transactions) {
 				transaction.setActive(false);
-				transactionRepository.save(transaction);
-				accountService.depositAmount(transaction.getReceiver(), transaction.getAmount());
-				System.out.println("Transação feita!");
+				Double finalAmount = transaction.getReceiver().getAmount() + transaction.getAmount();
+				transaction.getReceiver().setAmount(finalAmount);
 			}
+			transactionRepository.saveAll(transactions);
 		}
 	}
 }

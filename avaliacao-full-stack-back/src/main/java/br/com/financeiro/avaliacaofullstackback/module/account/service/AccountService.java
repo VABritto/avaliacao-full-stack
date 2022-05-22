@@ -33,12 +33,6 @@ public class AccountService {
 		accountRepository.save(account);
 	}
 
-	public void depositAmount(Account account, Double amount) {
-		amount += account.getAmount();
-		account.setAmount(amount);
-		accountRepository.save(account);
-	}
-
 	private String dotToCommaConverter(Double amount) {
 		return amount.toString().replace(".", ",");
 	}

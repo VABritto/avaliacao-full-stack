@@ -1,5 +1,6 @@
 package br.com.financeiro.avaliacaofullstackback.module.transaction.controller;
 
+import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionListRequest;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionRequest;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionResponse;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.service.TransactionService;
@@ -8,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -31,10 +35,10 @@ public class TransactionController {
         }
     }
 
-    @GetMapping(value = "/list-all-transactions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> listAllTransactions() {
+    @PostMapping(value = "/list-all-transactions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> listAllTransactions(@RequestBody TransactionListRequest transactionListRequest) {
         try {
-            List<TransactionResponse> responses = transactionService.findAll();
+            List<TransactionResponse> responses = transactionService.findAllByAccountNumber(transactionListRequest.getAccountNumber());
             return ResponseEntity.ok().body(responses);
         } catch (Exception e) {
             log.debug(e.getMessage());

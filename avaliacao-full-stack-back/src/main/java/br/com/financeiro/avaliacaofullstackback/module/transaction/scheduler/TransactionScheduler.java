@@ -15,8 +15,6 @@ public class TransactionScheduler {
 
     @Scheduled(fixedDelay = 2000)
     public void executeTransactions() {
-        System.out.println("Iniciando Scheduler ---------");
         transactionService.executeTransactions();
-        System.out.println("Finalizando Scheduler --------");
     }
 }
