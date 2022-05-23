@@ -1,11 +1,10 @@
 package br.com.financeiro.avaliacaofullstackback.module.account.service;
 
-import br.com.financeiro.avaliacaofullstackback.config.exception.AccountException;
-import br.com.financeiro.avaliacaofullstackback.config.exception.TransactionException;
-import br.com.financeiro.avaliacaofullstackback.module.account.dto.AccountRequest;
 import br.com.financeiro.avaliacaofullstackback.module.account.dto.AccountResponse;
 import br.com.financeiro.avaliacaofullstackback.module.account.model.Account;
 import br.com.financeiro.avaliacaofullstackback.module.account.repository.AccountRepository;
+import br.com.financeiro.avaliacaofullstackback.module.transaction.exception.AccountException;
+import br.com.financeiro.avaliacaofullstackback.module.transaction.exception.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,8 @@ public class AccountService {
 		return accountRepository.findByNumber(accountNumber);
 	}
 
-	public AccountResponse findByAccountNumber(AccountRequest request) {
-		Account account = accountRepository.findByNumber(request.getAccountNumber());
+	public AccountResponse findResponseByAccountNumber(String accountNumber) {
+		Account account = accountRepository.findByNumber(accountNumber);
 		return AccountResponse.of(account);
 	}
 

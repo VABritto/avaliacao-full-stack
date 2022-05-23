@@ -1,7 +1,7 @@
 package br.com.financeiro.avaliacaofullstackback.module.transaction.service;
 
-import br.com.financeiro.avaliacaofullstackback.config.exception.AccountException;
-import br.com.financeiro.avaliacaofullstackback.config.exception.TransactionException;
+import br.com.financeiro.avaliacaofullstackback.module.transaction.exception.AccountException;
+import br.com.financeiro.avaliacaofullstackback.module.transaction.exception.TransactionException;
 import br.com.financeiro.avaliacaofullstackback.module.account.model.Account;
 import br.com.financeiro.avaliacaofullstackback.module.account.service.AccountService;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionRequest;

@@ -1,6 +1,5 @@
 package br.com.financeiro.avaliacaofullstackback.module.account.controller;
 
-import br.com.financeiro.avaliacaofullstackback.module.account.dto.AccountRequest;
 import br.com.financeiro.avaliacaofullstackback.module.account.dto.AccountResponse;
 import br.com.financeiro.avaliacaofullstackback.module.account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -21,10 +17,11 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping(value = "/account-sum", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAccountSum(@RequestBody AccountRequest request) {
+    @CrossOrigin(origins = {"http://localhost:4200"}, exposedHeaders = "Access-Control-Allow-Origin")
+    @GetMapping(value = "/account-sum/{account_number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAccountSum(@PathVariable("account_number") String accountNumber) {
         try {
-            AccountResponse response = accountService.findByAccountNumber(request);
+            AccountResponse response = accountService.findResponseByAccountNumber(accountNumber);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             log.debug(e.getMessage());

@@ -1,0 +1,9 @@
+<p-panel header="Número da Conta">
+    {{ account.number }}
+</p-panel>
+<p-panel header="Nome">
+    {{ account.name }}
+</p-panel>
+<p-panel header="Saldo">
+    {{ account.amount | currency: 'BRL' }}
+</p-panel>

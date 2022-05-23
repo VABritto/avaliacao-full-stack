@@ -1,6 +1,5 @@
 package br.com.financeiro.avaliacaofullstackback.module.transaction.controller;
 
-import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionListRequest;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionRequest;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.dto.TransactionResponse;
 import br.com.financeiro.avaliacaofullstackback.module.transaction.service.TransactionService;
@@ -9,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +20,7 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    @CrossOrigin(origins = {"http://localhost:4200"}, exposedHeaders = "Access-Control-Allow-Origin")
     @PostMapping(value = "/make-transaction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> makeTransaction(@RequestBody TransactionRequest request) {
         try {
@@ -35,10 +32,11 @@ public class TransactionController {
         }
     }
 
-    @PostMapping(value = "/list-all-transactions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> listAllTransactions(@RequestBody TransactionListRequest transactionListRequest) {
+    @CrossOrigin(origins = {"http://localhost:4200"}, exposedHeaders = "Access-Control-Allow-Origin")
+    @GetMapping(value = "/list-all-transactions/{account_number}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> listAllTransactions(@PathVariable("account_number") String accountNumber) {
         try {
-            List<TransactionResponse> responses = transactionService.findAllByAccountNumber(transactionListRequest.getAccountNumber());
+            List<TransactionResponse> responses = transactionService.findAllByAccountNumber(accountNumber);
             return ResponseEntity.ok().body(responses);
         } catch (Exception e) {
             log.debug(e.getMessage());

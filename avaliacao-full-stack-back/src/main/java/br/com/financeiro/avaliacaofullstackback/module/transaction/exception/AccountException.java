@@ -1,4 +1,4 @@
-package br.com.financeiro.avaliacaofullstackback.config.exception;
+package br.com.financeiro.avaliacaofullstackback.module.transaction.exception;
 
 public class AccountException  extends Exception {
     private static final long serialVersionUID = -3523708272483156940L;

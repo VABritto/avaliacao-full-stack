@@ -1,0 +1,52 @@
+<p-messages [(value)]="msgsSuccess"></p-messages>
+<p-button label="Agendar Transferência" (onClick)="toggleDialog()" ></p-button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Remetente</th>
+            <th>Quantia</th>
+            <th>Tipo de Taxa</th>
+            <th>Data de Transferência</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let transaction of transactions">
+            <td>{{ transaction.receiverAccount }}</td>
+            <td>{{ transaction.amount | currency:'BRL' }}</td>
+            <td>{{ transaction.type }}</td>
+            <td>{{ transaction.transferDate }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p-dialog ng-controller="transaction" [(visible)]="display" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw', height:'50vw'}" >
+    <p-messages [(value)]="msgsDialog"></p-messages>
+    <ng-template pTemplate="header">
+        <b>Agendar Transferência</b>
+    </ng-template>
+    <p-panel header="Remetente">
+        <p-inputMask [(ngModel)]="transaction.receiverAccount" mask="999999" characterPattern="[0-9]"></p-inputMask>
+    </p-panel>
+    <p-panel header="Quantia a ser Transferida">
+        <p-inputNumber [(ngModel)]="transaction.amount" [maxFractionDigits]="2" mode="currency" currency="BRL" locale="pt"></p-inputNumber>
+    </p-panel>
+    <p-panel header="Tipo de Taxa">
+        <p-dropdown [options]="feeTypes" [(ngModel)]="transaction.type"></p-dropdown>
+    </p-panel>
+    <ng-template pTemplate="footer">
+        <p-button label="Salvar" (onClick)="scheduleTransfer()" ></p-button>
+        <p-button label="Cancelar" (onClick)="cancelTransfer()" ></p-button>
+    </ng-template>
+    <p-panel header="Data de Agendamento">
+        <p-calendar [(ngModel)]="transaction.transferDate" [showTime]="true" hourFormat="24"></p-calendar>
+    </p-panel>
+</p-dialog>
+
+<script>
+    var app = angular.module("app", []);
+          
+    app.controller('transaction', ['$scope', function ($scope) {
+        $scope.myRegex = /^\d+$/;
+    }]);
+    
+</script>
